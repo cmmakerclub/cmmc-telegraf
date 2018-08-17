@@ -1,0 +1,28 @@
+{
+  "name": "cmmc-telegraf",
+  "version": "1.0.0",
+  "description": "CMMC's telegraf wrapper",
+  "main": "app.js",
+  "bin": {
+    "cmmc-telegraf": "bin/app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cmmakerclub/cmmc-telegraf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "http://github.com/cmmakerclub/cmmc-telegraf/issues"
+  },
+  "homepage": "http://cmmakerclub.com",
+  "dependencies": {
+    "commander": "^2.17.1",
+    "configstore": "^4.0.0",
+    "inquirer": "^6.1.0",
+    "mustache": "^2.3.1"
+  }
+}

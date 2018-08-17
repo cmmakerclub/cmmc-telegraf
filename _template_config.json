@@ -1,0 +1,18 @@
+{
+  "influx_urls": [
+    "http://__HOST__:8086"
+  ],
+  "influx_database": "{{appName}}db",
+  "influx_username": "{{appName}}",
+  "influx_password": "{{appName}}",
+  "name_override": "{{appName}}db",
+  "servers": [
+    "tcp://__BROKER__:1883"
+  ],
+  "topics": [],
+  "mqtt_username": "",
+  "mqtt_password": "",
+  "mqtt_clientId": "",
+  "debug": "true",
+  "quiet": "false"
+}

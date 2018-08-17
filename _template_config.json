@@ -9,7 +9,7 @@
   "servers": [
     "tcp://__BROKER__:1883"
   ],
-  "topics": [],
+  "topics": [""],
   "mqtt_username": "",
   "mqtt_password": "",
   "mqtt_clientId": ""

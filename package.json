@@ -1,6 +1,6 @@
 {
   "name": "cmmc-telegraf",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CMMC's telegraf wrapper",
   "main": "app.js",
   "bin": {

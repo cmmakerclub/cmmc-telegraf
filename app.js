@@ -29,6 +29,49 @@ program
 
 program.parse(process.argv)
 
+const regenerate = function () {
+  const dir = `${CONFIG_PATH}/configs`
+  const TEMPLATE_TELEGRAF = fs.readFileSync(`${CONFIG_PATH}/templates/template_telegraf.conf`, 'utf8')
+  const TEMPLATE_DOCKER_DEBUG = fs.readFileSync(`${CONFIG_PATH}/templates/template_docker-debug.conf`, 'utf8')
+  const TEMPLATE_DOCKER_PROD = fs.readFileSync(`${CONFIG_PATH}/templates/template_docker-prod.conf`, 'utf8')
+
+  const configFiles = fs.readdirSync(`${CONFIG_PATH}/configs`)
+    .filter(file => fs.statSync(dir + '/' + file).isFile())
+    .map(file => file.split('.')[0])
+
+  configFiles.forEach((name, idx) => {
+    let config = require(`${CONFIG_PATH}/configs/${name}.json`)
+    const beWrittenFiles = [
+      {
+        file: `${CONFIG_PATH}/telegraf/${name}.conf`,
+        content: Mustache.render(TEMPLATE_TELEGRAF, Object.assign({}, config, {debug: 'false', quiet: 'true'}))
+      },
+      {
+        file: `${CONFIG_PATH}/telegraf/debug_${name}.conf`,
+        content: Mustache.render(TEMPLATE_TELEGRAF, Object.assign({}, config, {debug: 'true', quiet: 'false'}))
+      },
+      {
+        file: `${CONFIG_PATH}/scripts/${name}.sh`,
+        content: Mustache.render(TEMPLATE_DOCKER_PROD, {
+          config_name: `${name}`,
+          config_path: `${CONFIG_PATH}/telegraf`
+        })
+      },
+      {
+        file: `${CONFIG_PATH}/scripts/debug_${name}.sh`,
+        content: Mustache.render(TEMPLATE_DOCKER_DEBUG, {
+          config_name: `${name}`,
+          config_path: `${CONFIG_PATH}/telegraf`
+        })
+      }
+    ]
+    beWrittenFiles.forEach(item => {
+      fs.writeFileSync(item.file, item.content)
+      console.log(`> writing ${item.file}... done.`)
+    })
+  })
+
+}
 const listApps = () => {
   const dir = `${CONFIG_PATH}/configs`
   const configFiles = fs.readdirSync(dir)
@@ -105,47 +148,7 @@ else if (program.list) {
   listApps()
 }
 else if (program.regenerate) {
-  const dir = `${CONFIG_PATH}/configs`
-
-  const TEMPLATE_TELEGRAF = fs.readFileSync(`${CONFIG_PATH}/templates/template_telegraf.conf`, 'utf8')
-  const TEMPLATE_DOCKER_DEBUG = fs.readFileSync(`${CONFIG_PATH}/templates/template_docker-debug.conf`, 'utf8')
-  const TEMPLATE_DOCKER_PROD = fs.readFileSync(`${CONFIG_PATH}/templates/template_docker-prod.conf`, 'utf8')
-
-  const configFiles = fs.readdirSync(`${CONFIG_PATH}/configs`)
-    .filter(file => fs.statSync(dir + '/' + file).isFile())
-    .map(file => file.split('.')[0])
-
-  configFiles.forEach((name, idx) => {
-    let config = require(`${CONFIG_PATH}/configs/${name}.json`)
-    const beWrittenFiles = [
-      {
-        file: `${CONFIG_PATH}/telegraf/${name}.conf`,
-        content: Mustache.render(TEMPLATE_TELEGRAF, Object.assign({}, config, {debug: 'false', quiet: 'true'}))
-      },
-      {
-        file: `${CONFIG_PATH}/telegraf/debug_${name}.conf`,
-        content: Mustache.render(TEMPLATE_TELEGRAF, Object.assign({}, config, {debug: 'true', quiet: 'false'}))
-      },
-      {
-        file: `${CONFIG_PATH}/scripts/${name}.sh`,
-        content: Mustache.render(TEMPLATE_DOCKER_PROD, {
-          config_name: `${name}`,
-          config_path: `${CONFIG_PATH}/telegraf`
-        })
-      },
-      {
-        file: `${CONFIG_PATH}/scripts/debug_${name}.sh`,
-        content: Mustache.render(TEMPLATE_DOCKER_DEBUG, {
-          config_name: `${name}`,
-          config_path: `${CONFIG_PATH}/telegraf`
-        })
-      }
-    ]
-    beWrittenFiles.forEach(item => {
-      fs.writeFileSync(item.file, item.content)
-      console.log(`> writing ${item.file}... done.`)
-    })
-  })
+  regenerate()
 }
 else if (program.create) {
   program.args.forEach((appName, idx) => {
@@ -161,11 +164,12 @@ else if (program.warp) {
 }
 else if (program.run) {
   if (!program.args[0]) {
+    listApps()
     console.log('invalid app parameter.')
     console.log('call --list or --help for more information')
-    // listApps()
   }
   else {
+    regenerate()
     const r = child_process.execFileSync('bash', [`${CONFIG_PATH}/scripts/${program.args[0]}.sh`], {
       stdio: 'inherit'
     })
@@ -173,10 +177,12 @@ else if (program.run) {
 }
 else if (program.debug) {
   if (!program.args[0]) {
+    listApps()
     console.log('invalid app parameter.')
     console.log('call --list or --help for more information')
   }
   else {
+    regenerate()
     const r = child_process.execFileSync('bash', [`${CONFIG_PATH}/scripts/debug_${program.args[0]}.sh`], {
       stdio: 'inherit'
     })

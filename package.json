@@ -1,6 +1,6 @@
 {
   "name": "cmmc-telegraf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CMMC's telegraf wrapper",
   "main": "app.js",
   "bin": {
@@ -16,6 +16,8 @@
   "author": "",
   "license": "ISC",
   "bugs": {
+
+
     "url": "http://github.com/cmmakerclub/cmmc-telegraf/issues"
   },
   "homepage": "http://cmmakerclub.com",

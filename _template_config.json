@@ -13,6 +13,4 @@
   "mqtt_username": "",
   "mqtt_password": "",
   "mqtt_clientId": "",
-  "debug": "true",
-  "quiet": "false"
 }

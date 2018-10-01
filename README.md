@@ -8,4 +8,5 @@
   $ cmmc-telegraf --create appname
   $ cmmc-telegraf --debug appname
   $ cmmc-telegraf --run appname
+  $ cmmc-telegraf --warp
 ```

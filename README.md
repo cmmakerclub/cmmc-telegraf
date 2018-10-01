@@ -12,8 +12,8 @@
   $ npm install -g cmmc-telegraf
   $ cd ~/tick
   $ cmmc-telegraf --init
-  $ cmmc-telegraf --create appname
-  $ cmmc-telegraf --debug appname
-  $ cmmc-telegraf --run appname
+  $ cmmc-telegraf --create [appname]
+  $ cmmc-telegraf --debug [appname]
+  $ cmmc-telegraf --run [appname]
   $ cmmc-telegraf --warp
 ```

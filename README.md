@@ -6,10 +6,11 @@
  $ nvm use 8
  $ nvm alias default 8
 ```
+
+
 ```
   $ npm install -g cmmc-telegraf
-  $ mkdir ~/telegraf-context
-  $ cd ~/telegraf-context
+  $ cd ~/tick
   $ cmmc-telegraf --init
   $ cmmc-telegraf --create appname
   $ cmmc-telegraf --debug appname

@@ -22,10 +22,11 @@ program
   .option('-l, --list', 'list application')
   .option('-r, --regenerate', 'regenerate all applications config')
   .option('-c, --create [appname]', 'create application')
-// .action((type, args) => {
-//   // console.log(`type = `, type)
-//   // console.log(`args= `, args)
-// })
+/* 
+  .action((type, args) => {
+    console.log(`type = `, type)
+    console.log(`args= `, args)
+ }) */
 
 program.parse(process.argv)
 

@@ -9,7 +9,8 @@
 
 
 ```
-  $ npm install -g cmmc-telegraf
+  $ npm install -g cmmc-telegraf@1.0.3
+
   $ mkdir ~/tick; cd ~/tick
   $ cmmc-telegraf --init
   $ cmmc-telegraf --create [appname]
